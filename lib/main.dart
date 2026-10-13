@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomeScreen(candi, candiList(0)),
+      home: DetailScreen(candi: candiList[0]),
     );
   }
 }
