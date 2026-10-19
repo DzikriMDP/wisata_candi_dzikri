@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:wisata_candi/models/candi.dart';
 
@@ -10,9 +11,43 @@ class DetailScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          //DetailHeader
-          //DetailInfo
-          //DetailGallery
+          Stack(
+            children: [
+              // Gambar utama
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    candi.imageAsset,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              // Tombol kembali
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,vertical: 32,),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple[100]?.withValues(alpha: 0.8),
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    onPressed: () {Navigator.pop(context);},
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // DetailHeader
+          // DetailInfo
+          // DetailGallery
         ],
       ),
     );
