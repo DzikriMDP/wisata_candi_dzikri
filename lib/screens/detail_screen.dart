@@ -1,6 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wisata_candi/models/candi.dart';
+import 'package:wisata_candi/providers/favorite_provider.dart';
+import 'package:wisata_candi/screens/profile_screen.dart';
 
 class DetailScreen extends StatelessWidget {
   final Candi candi;
@@ -12,7 +14,19 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isFav = context.watch<FavoriteProvider>().isFavorite(candi.name);
+
     return Scaffold(
+      // Tombol sementara untuk menguji ProfileScreen
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfileScreen()),
+          );
+        },
+        child: const Icon(Icons.person),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,8 +53,7 @@ class DetailScreen extends StatelessWidget {
                   left: 20,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.deepPurple.shade100
-                          .withValues(alpha: 0.8),
+                      color: Colors.deepPurple.shade100.withValues(alpha: 0.8),
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -62,8 +75,7 @@ class DetailScreen extends StatelessWidget {
                 children: [
                   // Nama candi dan tombol favorit
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: Text(
@@ -76,10 +88,11 @@ class DetailScreen extends StatelessWidget {
                       ),
                       IconButton(
                         onPressed: () {
-                          // TODO: Tambahkan fitur favorit
+                          context.read<FavoriteProvider>().toggle(candi.name);
                         },
-                        icon: const Icon(
-                          Icons.favorite_border,
+                        icon: Icon(
+                          isFav ? Icons.favorite : Icons.favorite_border,
+                          color: isFav ? Colors.red : null,
                         ),
                       ),
                     ],
@@ -91,32 +104,23 @@ class DetailScreen extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.place,
-                        color: Colors.red,
-                      ),
+                      const Icon(Icons.place, color: Colors.red),
                       const SizedBox(width: 8),
                       const SizedBox(
                         width: 70,
                         child: Text(
                           'Lokasi',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       const Text(': '),
-                      Expanded(
-                        child: Text(candi.location),
-                      ),
+                      Expanded(child: Text(candi.location)),
                     ],
                   ),
 
                   const SizedBox(height: 16),
 
-                  Divider(
-                    color: Colors.deepPurple.shade100,
-                  ),
+                  Divider(color: Colors.deepPurple.shade100),
 
                   const SizedBox(height: 16),
 
